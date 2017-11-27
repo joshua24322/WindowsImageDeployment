@@ -1,0 +1,29 @@
+Select disk 0
+list volume
+Clean
+Convert MBR
+
+rem === Create the Windows RE (Windows Recovery Environment) partition.                           
+Create partition primary size=15000
+Format quick fs=ntfs label="Recovery"
+
+rem === Create the System partition.
+create partition primary size=100
+format quick fs=ntfs label="System"
+assign letter S
+
+rem === Create the Windows partition.
+create partition primary
+format quick fs=ntfs label="Windows"
+assign letter w
+active
+
+select disk 0
+list volume
+list partition
+
+select disk 0
+list volume
+list partition
+
+Exit

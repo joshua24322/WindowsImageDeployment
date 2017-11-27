@@ -1,0 +1,30 @@
+Select disk 0
+list volume
+Clean
+Convert GPT
+
+
+list volume
+
+rem === Create the Windows RE (Windows Recovery Environment) partition.                           
+Create partition primary size=300
+Format quick fs=ntfs label="Recovery"
+
+rem === Create the ESP partition.            
+Create partition efi size=100
+Format quick fs=fat32
+Assign letter="S"
+
+rem === Create the MSR (Microsoft Reserved) partition. 
+Create partition msr size=128
+
+rem === Create the Windows partition.            
+Create partition primary 
+Format quick fs=ntfs 
+Assign letter="C"
+
+select disk 0
+list volume
+list partition
+
+Exit
