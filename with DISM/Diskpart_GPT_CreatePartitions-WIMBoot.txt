@@ -1,0 +1,36 @@
+rem == These commands set up the hard drive partitions
+rem    for WIMBoot.
+Select disk 0
+list volume
+Clean
+Convert GPT
+
+
+list volume
+
+rem === 1. Create System partition (ESP).            
+Create partition efi size=500
+Format quick fs=fat32 label="System"
+Assign letter="S"
+
+rem === 2. Create Microsoft Reserved (MSR) partition. 
+Create partition msr size=128
+
+rem === 3. Create Windows partition.            
+Create partition primary
+shrink minimum=4000
+Format quick fs=ntfs label="Windows"
+Assign letter="C"
+
+rem === 4. Create Image partition.
+Create partition primary
+Format quick fs=ntfs label="Images"
+Assign letter="M"
+set id="de94bba4-06d1-4d40-a16a-bfd50179d6ac"
+gpt attributes=0x8000000000000001
+
+select disk 0
+list volume
+list partition
+
+Exit
